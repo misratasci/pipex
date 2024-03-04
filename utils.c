@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/04 15:21:55 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/04 17:01:53 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	exec_cmd(char *cmd)
 	else if (pid == 0)
 	{
 		execve(cmdpath, argv, NULL);
-		perror(argv[0]);
-		exit();
+		//perror(argv[0]);
+		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		wait();
+		wait(&status);
 		i = 0;
 		while (argv[i])
 		free(argv[i++]);
@@ -58,5 +58,6 @@ void	redirect_input(char *file)
 	{
 		dup2(fd, STDIN_FILENO);
 		close(fd);
+		
 	}
 }
