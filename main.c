@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 12:48:21 by mitasci           #+#    #+#             */
-/*   Updated: 2024/02/26 14:18:55 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/04 13:23:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 	file2 = argv[4];
 
 	printf("%s, %s, %s, %s", file1, cmd1, cmd2, file2);
-	
+	redirect_input(file1);
 	exec_cmd(cmd1);
 	
 }
