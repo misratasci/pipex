@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/04 13:31:44 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/04 15:21:55 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	exec_cmd(char *cmd)
 	char	*cmdpath;
 	size_t	i;
 	pid_t	pid;
+	int		status;
 
 	argv = ft_split(cmd, ' ');
 	cmdpath = ft_strjoin("/bin/", argv[0]);
@@ -28,6 +29,7 @@ void	exec_cmd(char *cmd)
 	{
 		execve(cmdpath, argv, NULL);
 		perror(argv[0]);
+		exit();
 	}
 	else
 	{
