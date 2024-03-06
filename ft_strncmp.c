@@ -1,23 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 12:48:35 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/06 18:13:46 by mitasci          ###   ########.fr       */
+/*   Created: 2023/12/04 17:23:03 by mitasci           #+#    #+#             */
+/*   Updated: 2024/03/06 19:13:44 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+#include "pipex.h"
 
-char	**ft_split(char const *s, char c);
-char	*ft_strjoin(char const *s1, char const *s2);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	pipex(char *file1, char *cmd1, char *cmd2, char *file2, char **paths);
-char 	**get_cmd_paths(char **envp);
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	unsigned char	c1;
+	unsigned char	c2;
+	size_t			i;
+
+	i = 0;
+	while (i < n)
+	{
+		c1 = (unsigned char)s1[i];
+		c2 = (unsigned char)s2[i];
+		if (c1 != c2)
+		{
+			if (c1 > c2)
+				return (1);
+			else
+				return (-1);
+		}	
+		i += 1;
+		if (c1 == 0 && c2 == 0)
+			break ;
+	}
+	return (0);
+}
