@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 12:48:21 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/06 19:27:48 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/06 20:01:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,5 @@ int	main(int argc, char **argv, char **envp)
 	file2 = argv[4];
 	paths = get_cmd_paths(envp);
 	pipex(file1, cmd1, cmd2, file2, paths);
+	system("leaks pipex");
 }

@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/06 19:37:12 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/06 20:05:36 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	exec_cmd(char *cmd, char **paths)
 	while (paths[i])
 	{
 		cmdpath = ft_strjoin(paths[i++], "/");
-		cmdpath = ft_strjoin(paths[i++], argv[0]);
+		cmdpath = ft_strjoin(cmdpath, argv[0]);
 		if (access(cmdpath, X_OK) == 0) 
 			break;
 	}
@@ -56,7 +56,7 @@ static int	ft_pipe(char *cmd, char **paths)
 	else if (pid == 0)
 	{
 		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
+		//dup2(pipefd[1], STDOUT_FILENO);
 		exec_cmd(cmd, paths);
 		return (-1);
 	}
@@ -93,7 +93,6 @@ void	pipex(char *file1, char *cmd1, char *cmd2, char *file2, char **paths)
 	int		fd3;
 	int		outfd;
 
-	printf("%s\n", paths[0]);
 	fd = open(file1, O_RDONLY, 0777);
 	if (fd == -1)
 		perror(file1);
@@ -110,7 +109,7 @@ void	pipex(char *file1, char *cmd1, char *cmd2, char *file2, char **paths)
 char **get_cmd_paths(char **envp)
 {
 	int		i;
-	char	*path;
+	char	**path;
 	char	**paths;
 
 	path = NULL;
@@ -124,7 +123,8 @@ char **get_cmd_paths(char **envp)
 		}
 		i++;
 	}
-	path = ft_split(path, '=')[1];
+	path = ft_split(path, '=');
 	paths = ft_split(path, ':');
+	free(path);
 	return (paths);
 }
