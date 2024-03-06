@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/06 15:00:56 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/06 15:02:05 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	redir_inp_exec_cmd(char *file, char *cmd)
 		waitpid(pid, NULL, 0);
 		
 		close(pipefd[1]);
-		int outfd = open("out.txt", O_WRONLY, 0777);
+		int outfd = open("out.txt", O_WRONLY | O_CREAT, 0777);
         while(read(pipefd[0], reading_buf, 1) > 0)
             write(outfd, reading_buf, 1);
         close(pipefd[0]);
