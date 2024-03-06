@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 12:48:21 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/06 13:59:07 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/06 15:14:10 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,5 @@ int main(int argc, char **argv)
 	file2 = argv[4];
 
 	//printf("%s, %s, %s, %s", file1, cmd1, cmd2, file2);
-	redir_inp_exec_cmd(file1, cmd1);
+	pipex(file1, cmd1, cmd2, file2);
 }

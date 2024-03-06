@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/06 15:11:53 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/06 15:15:44 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	pipex(char *file1, char *cmd1, char *cmd2, char *file2)
 	pid_t	pid;
 	int		fd;
 	int		pipefd[2];
-	char	reading_buf[1];
+	//char	reading_buf[1];
 
 	fd = open(file1, O_RDONLY, 0777);
 	if (fd == -1)
@@ -39,10 +39,13 @@ void	pipex(char *file1, char *cmd1, char *cmd2, char *file2)
 	{
 		waitpid(pid, NULL, 0);
 		close(pipefd[1]);
-		int outfd = open(file2, O_WRONLY | O_CREAT, 0777);
-        while(read(pipefd[0], reading_buf, 1) > 0)
-            write(outfd, reading_buf, 1);
-        close(pipefd[0]);
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		exec_cmd(cmd2);
+		file2++;
+		//int outfd = open(file2, O_WRONLY | O_CREAT, 0777);
+        //while(read(pipefd[0], reading_buf, 1) > 0)
+        //    write(outfd, reading_buf, 1);
 	}
 }
 
