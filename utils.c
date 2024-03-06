@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/06 15:07:08 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/06 15:11:53 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	pipex(char *file1, char *cmd1, char *cmd2, char *file2)
 		close(fd);
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
-		//execve öncesinde command'e erişimin var mı diye access ile kontrol et
 		exec_cmd(cmd1);
 	}
 	else
@@ -55,6 +54,8 @@ void	exec_cmd(char *cmd)
 
 	argv = ft_split(cmd, ' ');
 	cmdpath = ft_strjoin("/usr/bin/", argv[0]);
+	if (access(cmdpath, X_OK) == -1)
+		perror("access");
 	execve(cmdpath, argv, NULL);
 	perror("execve");
 	exit(EXIT_FAILURE);
