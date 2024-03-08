@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 19:10:22 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:22:35 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ static void	exec_cmd(char *cmd, char **paths)
 	argv = parse_cmd(cmd);
 	i = 0;
 	cmdpath = get_cmd_path(argv[0], paths);
+	/*
 	if (access(cmdpath, X_OK) == -1)
-		perror("access");
+		perror(argv[0]);
+	*/
 	execve(cmdpath, argv, NULL);
-	perror("execve");
+	perror(argv[0]);
 	i = 0;
 	while (argv[i])
 		free(argv[i++]);

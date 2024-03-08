@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:17:12 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 19:06:31 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:25:59 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static int	quote_in_str(char *s)
 	return (0);
 }
 
-static int	count_elements(char **list)
+static int	listlen(char **list)
 {
-	int i;
+	int	i;
 
 	if (!list)
 		return (0);
@@ -47,22 +47,22 @@ static char	**join_lists(char **l1, char **l2)
 
 	if (l1 == NULL)
 		return (l2);
-	list = (char **)malloc((count_elements(l1) + count_elements(l2) + 1) * sizeof(char *));
+	list = (char **)malloc((listlen(l1) + listlen(l2) + 1) * sizeof(char *));
 	if (!list)
 		return (NULL);
 	i = 0;
-	while (i < count_elements(l1))
+	while (i < listlen(l1))
 	{
 		list[i] = l1[i];
 		i += 1;
 	}
 	i = 0;
-	while (i < count_elements(l2))
+	while (i < listlen(l2))
 	{
-		list[count_elements(l1) + i] = l2[i];
+		list[listlen(l1) + i] = l2[i];
 		i += 1;
 	}
-	list[count_elements(l1) + i] = NULL;
+	list[listlen(l1) + i] = NULL;
 	free(l1);
 	free(l2);
 	return (list);
@@ -97,11 +97,11 @@ static char	**handle_quotes(char *cmd, char q)
 	char	**split;
 	int		i;
 	int		el_count;
-	
+
 	list = ft_split(cmd, q);
 	if (!list)
 		return (NULL);
-	el_count = count_elements(list);
+	el_count = listlen(list);
 	i = 0;
 	split = NULL;
 	while (list[i])
@@ -111,7 +111,7 @@ static char	**handle_quotes(char *cmd, char q)
 			split = join_lists(split, ft_split(list[i], ' '));
 			if (el_count - 1 > i)
 				split = add_element(split, list[i + 1]);
-		}	
+		}
 		i++;
 	}
 	i = 0;
