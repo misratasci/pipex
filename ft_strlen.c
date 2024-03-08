@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 12:48:21 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 11:16:29 by mitasci          ###   ########.fr       */
+/*   Created: 2023/12/04 12:09:49 by mitasci           #+#    #+#             */
+/*   Updated: 2024/03/08 11:10:51 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+size_t	ft_strlen(const char *s)
 {
-	char	**paths;
+	size_t	i;
 
-	if (argc != 5)
-	{
-		perror("parameters");
-		exit(EXIT_FAILURE);
-	}
-	paths = get_cmd_paths(envp);
-	pipex(argv, paths);
-	//system("leaks pipex");
+	i = 0;
+	while (s[i])
+		i += 1;
+	return (i);
 }

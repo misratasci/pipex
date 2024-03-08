@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 12:48:35 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 11:16:39 by mitasci          ###   ########.fr       */
+/*   Created: 2023/12/28 17:31:10 by mitasci           #+#    #+#             */
+/*   Updated: 2024/03/08 11:14:31 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-char	**ft_split(char const *s, char c);
-char	*ft_strjoin(char const *s1, char const *s2);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	pipex(char **argv, char **paths);
-char 	**get_cmd_paths(char **envp);
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 35
+# endif
+
+# include <unistd.h>
+# include <stdlib.h>
+
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
+int		get_line_length(char *s);
+char	*write_until_ind(char *b, int start, int ind);
+char	*get_until_nl(char *b);
+char	*get_next_buffer(int fd);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+int		count_nls(char *b);
+char	*get_after_line(char *b);
+
+#endif

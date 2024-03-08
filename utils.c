@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/06 20:05:36 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 11:16:35 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	ft_pipe(char *cmd, char **paths)
 	else if (pid == 0)
 	{
 		close(pipefd[0]);
-		//dup2(pipefd[1], STDOUT_FILENO);
+		dup2(pipefd[1], STDOUT_FILENO);
 		exec_cmd(cmd, paths);
 		return (-1);
 	}
@@ -70,61 +70,58 @@ static int	ft_pipe(char *cmd, char **paths)
 
 static void	write_to_file(int infd, int outfd)
 {
-	int		l;
-	char	buf[1];
+	char	*line;
 
-	l = 1;
-	while (l != 0)
+	line = get_next_line(infd);
+	while (line)
 	{
-		l = read(infd, buf, 1);
-		if (l == -1)
-		{
-			perror("read");
-			exit(EXIT_FAILURE);
-		}
-		write(outfd, buf, 1);
+		write(outfd, line, ft_strlen(line));
+		line = get_next_line(infd);
 	}
 }
 
-void	pipex(char *file1, char *cmd1, char *cmd2, char *file2, char **paths)
+void	pipex(char **argv, char **paths)
 {
 	int		fd;
 	int		fd2;
 	int		fd3;
 	int		outfd;
 
-	fd = open(file1, O_RDONLY, 0777);
+	fd = open(argv[1], O_RDONLY, 0777);
 	if (fd == -1)
-		perror(file1);
+		perror(argv[1]);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	fd2 = ft_pipe(cmd1, paths);
+	fd2 = ft_pipe(argv[2], paths);
 	dup2(fd2, STDIN_FILENO);
 	close(fd2);
-	fd3 = ft_pipe(cmd2, paths);
-	outfd = open(file2, O_WRONLY | O_CREAT, 0777);
+	fd3 = ft_pipe(argv[3], paths);
+	outfd = open(argv[4], O_WRONLY | O_CREAT, 0777);
 	write_to_file(fd3, outfd);
 }
 
 char **get_cmd_paths(char **envp)
 {
 	int		i;
-	char	**path;
+	char	*pathline;
 	char	**paths;
+	char	**path;
 
-	path = NULL;
+	pathline = NULL;
 	i = 0;
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
-			path = envp[i];
+			pathline = envp[i];
 			break;
 		}
 		i++;
 	}
-	path = ft_split(path, '=');
-	paths = ft_split(path, ':');
+	path = ft_split(pathline, '=');
+	pathline = path[1];
+	free(path[0]);
 	free(path);
+	paths = ft_split(pathline, ':');
 	return (paths);
 }
