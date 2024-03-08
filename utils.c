@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 11:16:35 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 11:19:09 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	exec_cmd(char *cmd, char **paths)
 	{
 		cmdpath = ft_strjoin(paths[i++], "/");
 		cmdpath = ft_strjoin(cmdpath, argv[0]);
-		if (access(cmdpath, X_OK) == 0) 
-			break;
+		if (access(cmdpath, X_OK) == 0)
+			break ;
 	}
 	if (access(cmdpath, X_OK) == -1)
 	{
@@ -46,7 +46,7 @@ static int	ft_pipe(char *cmd, char **paths)
 {
 	int		pipefd[2];
 	pid_t	pid;
-	
+
 	pid = fork();
 	if (pipe(pipefd) == -1 || pid == -1)
 	{
@@ -100,7 +100,7 @@ void	pipex(char **argv, char **paths)
 	write_to_file(fd3, outfd);
 }
 
-char **get_cmd_paths(char **envp)
+char	**get_cmd_paths(char **envp)
 {
 	int		i;
 	char	*pathline;
@@ -114,7 +114,7 @@ char **get_cmd_paths(char **envp)
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
 			pathline = envp[i];
-			break;
+			break ;
 		}
 		i++;
 	}

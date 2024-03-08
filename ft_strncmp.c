@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:23:03 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/06 19:13:44 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 11:19:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 				return (1);
 			else
 				return (-1);
-		}	
+		}
 		i += 1;
 		if (c1 == 0 && c2 == 0)
 			break ;
