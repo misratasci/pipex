@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:17:12 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 18:54:02 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:00:20 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	count_elements(char **list)
 	return (i);
 }
 
-char	**join_lists(char **l1, char **l2)
+static char	**join_lists(char **l1, char **l2)
 {
 	char	**list;
 	int		i;
@@ -65,7 +65,7 @@ char	**join_lists(char **l1, char **l2)
 	return (list);
 }
 
-char	**add_element(char **list, char *el)
+static char	**add_element(char **list, char *el)
 {
 	int		i;
 	char	**res;
@@ -88,7 +88,7 @@ char	**add_element(char **list, char *el)
 	return (res);
 }
 
-char	**handle_quotes(char *cmd, char q)
+static char	**handle_quotes(char *cmd, char q)
 {
 	char	**list;
 	char	**split;
@@ -121,9 +121,10 @@ char	**handle_quotes(char *cmd, char q)
 char	**parse_cmd(char *cmd)
 {
 	char	**split;
-	int		i;
+	//int		i;
 
 	split = NULL;
+	/*
 	if (char_in_str(cmd, '"') && char_in_str(cmd, '\''))
 	{
 		split = handle_quotes(cmd, '"');
@@ -137,9 +138,12 @@ char	**parse_cmd(char *cmd)
 			i++;
 		}
 	}
-	else if (char_in_str(cmd, '"'))
+	*/
+	if (char_in_str(cmd, '"'))
 		split = handle_quotes(cmd, '"');
 	else if (char_in_str(cmd, '\''))
 		split = handle_quotes(cmd, '\'');
+	else
+		split = ft_split(cmd, ' ');
 	return (split);
 }

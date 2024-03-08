@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 12:48:35 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 17:23:34 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 18:58:25 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,3 @@ void	pipex(char **argv, char **paths);
 char 	**get_cmd_paths(char **envp);
 char	*get_next_line(int fd);
 char	**parse_cmd(char *cmd);
-char	**add_element(char **list, char *el);

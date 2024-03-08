@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 17:26:53 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 18:59:09 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	exec_cmd(char *cmd, char **paths)
 	char	*cmdpath;
 	size_t	i;
 
-	argv = ft_split(cmd, ' ');
+	argv = parse_cmd(cmd);
 	i = 0;
 	cmdpath = get_cmd_path(argv[0], paths);
 	if (access(cmdpath, X_OK) == -1)
