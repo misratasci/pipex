@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 12:39:49 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 17:26:53 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static void	write_to_file(int infd, int outfd)
 	while (line)
 	{
 		write(outfd, line, ft_strlen(line));
+		free(line);
 		line = get_next_line(infd);
 	}
 }
@@ -94,6 +95,8 @@ static int	ft_pipe(char *cmd, char **paths)
 	}
 }
 
+
+
 void	pipex(char **argv, char **paths)
 {
 	int		fd;
@@ -102,7 +105,10 @@ void	pipex(char **argv, char **paths)
 	int		outfd;
 
 	if (access(argv[1], R_OK) != 0)
+	{
 		perror(argv[1]);
+		exit(EXIT_FAILURE);
+	}
 	fd = open(argv[1], O_RDONLY, 0777);
 	if (fd == -1)
 		perror(argv[1]);
@@ -112,11 +118,11 @@ void	pipex(char **argv, char **paths)
 	dup2(fd2, STDIN_FILENO);
 	close(fd2);
 	fd3 = ft_pipe(argv[3], paths);
-	if (access(argv[4], W_OK) != 0)
-		perror(argv[4]);
-	outfd = open(argv[4], O_WRONLY | O_CREAT, 0777);
+	outfd = open(argv[4], O_WRONLY | O_CREAT, 0644);
+	/*
 	if (outfd == -1)
 		perror(argv[4]);
+	*/
 	write_to_file(fd3, outfd);
 }
 
@@ -141,7 +147,8 @@ char	**get_cmd_paths(char **envp)
 	path = ft_split(pathline, '=');
 	pathline = path[1];
 	free(path[0]);
-	free(path);
 	paths = ft_split(pathline, ':');
+	free(path[1]);
+	free(path);
 	return (paths);
 }

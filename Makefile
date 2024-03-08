@@ -2,7 +2,7 @@ NAME = pipex
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
-SRCS = main.c utils.c ft_split.c ft_strjoin.c ft_strncmp.c ft_strlen.c gnl.c gnl_utils.c
+SRCS = main.c utils.c parse_cmd.c ft_split.c ft_strjoin.c ft_strdup.c ft_strncmp.c ft_strlen.c gnl.c gnl_utils.c
 
 all:
 	$(CC) $(CFLAGS) -o $(NAME) $(SRCS)

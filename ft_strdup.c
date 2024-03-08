@@ -1,34 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 12:48:21 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 17:28:08 by mitasci          ###   ########.fr       */
+/*   Created: 2023/12/09 17:16:21 by mitasci           #+#    #+#             */
+/*   Updated: 2024/03/08 17:23:21 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+static size_t	strlength(const char *s)
 {
-	char	**paths;
+	size_t	i;
 
-	if (argc != 5)
+	i = 0;
+	while (s[i])
+		i += 1;
+	return (i);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*str;
+	size_t	i;
+
+	str = (char *)malloc(strlength(s) + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i])
 	{
-		perror("parameters");
-		exit(EXIT_FAILURE);
+		str[i] = s[i];
+		i += 1;
 	}
-	paths = get_cmd_paths(envp);
-	
-	parse_cmd("1 2  \"a b c d\" 1 2 3 \"a b c \" 1  2 3  4 ");
-	/*
-	int i = 0;
-	while (list[i])
-		printf("%s\n", list[i++]);
-	*/
-	pipex(argv, paths);
-	//system("leaks pipex");
+	str[i] = 0;
+	return (str);
 }
