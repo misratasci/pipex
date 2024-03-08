@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 19:22:35 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:56:01 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ static void	exec_cmd(char *cmd, char **paths)
 	argv = parse_cmd(cmd);
 	i = 0;
 	cmdpath = get_cmd_path(argv[0], paths);
-	/*
-	if (access(cmdpath, X_OK) == -1)
-		perror(argv[0]);
-	*/
+	if (!cmdpath)
+		printf("%s: command not found\n", argv[0]);
 	execve(cmdpath, argv, NULL);
 	perror(argv[0]);
 	i = 0;
