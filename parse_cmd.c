@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:17:12 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 18:43:57 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 18:54:02 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ char	**handle_quotes(char *cmd, char q)
 	el_count = count_elements(list);
 	i = 0;
 	split = NULL;
-	
 	while (list[i])
 	{
 		if (i % 2 == 0)
@@ -122,11 +121,25 @@ char	**handle_quotes(char *cmd, char q)
 char	**parse_cmd(char *cmd)
 {
 	char	**split;
+	int		i;
 
 	split = NULL;
-	if (char_in_str(cmd, '"'))
+	if (char_in_str(cmd, '"') && char_in_str(cmd, '\''))
 	{
 		split = handle_quotes(cmd, '"');
+		i = 0;
+		while (split[i])
+		{
+			if (i % 2 == 1)
+			{
+				
+			}
+			i++;
+		}
 	}
+	else if (char_in_str(cmd, '"'))
+		split = handle_quotes(cmd, '"');
+	else if (char_in_str(cmd, '\''))
+		split = handle_quotes(cmd, '\'');
 	return (split);
 }
