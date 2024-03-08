@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 19:09:10 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:10:22 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ static int	ft_pipe(char *cmd, char **paths)
 		return (pipefd[0]);
 	}
 }
-
-
 
 void	pipex(char **argv, char **paths)
 {
