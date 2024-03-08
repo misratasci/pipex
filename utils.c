@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 18:59:09 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:09:10 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	exec_cmd(char *cmd, char **paths)
 		free(argv[i++]);
 	free(argv);
 	free(cmdpath);
-	exit(EXIT_FAILURE);
 }
 
 static void	write_to_file(int infd, int outfd)
@@ -110,6 +109,7 @@ void	pipex(char **argv, char **paths)
 		exit(EXIT_FAILURE);
 	}
 	fd = open(argv[1], O_RDONLY, 0777);
+	outfd = open(argv[4], O_WRONLY | O_CREAT, 0644);
 	if (fd == -1)
 		perror(argv[1]);
 	dup2(fd, STDIN_FILENO);
@@ -118,11 +118,6 @@ void	pipex(char **argv, char **paths)
 	dup2(fd2, STDIN_FILENO);
 	close(fd2);
 	fd3 = ft_pipe(argv[3], paths);
-	outfd = open(argv[4], O_WRONLY | O_CREAT, 0644);
-	/*
-	if (outfd == -1)
-		perror(argv[4]);
-	*/
 	write_to_file(fd3, outfd);
 }
 

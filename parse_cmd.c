@@ -6,21 +6,24 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:17:12 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 19:00:20 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:06:31 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	char_in_str(char *s, char c)
+static int	quote_in_str(char *s)
 {
 	int	i;
 
 	i = 0;
 	while (s[i])
 	{
-		if (c == s[i++])
+		if ('\'' == s[i])
 			return (1);
+		else if ('"' == s[i])
+			return (2);
+		i++;
 	}
 	return (0);
 }
@@ -121,28 +124,12 @@ static char	**handle_quotes(char *cmd, char q)
 char	**parse_cmd(char *cmd)
 {
 	char	**split;
-	//int		i;
 
 	split = NULL;
-	/*
-	if (char_in_str(cmd, '"') && char_in_str(cmd, '\''))
-	{
-		split = handle_quotes(cmd, '"');
-		i = 0;
-		while (split[i])
-		{
-			if (i % 2 == 1)
-			{
-				
-			}
-			i++;
-		}
-	}
-	*/
-	if (char_in_str(cmd, '"'))
-		split = handle_quotes(cmd, '"');
-	else if (char_in_str(cmd, '\''))
+	if (quote_in_str(cmd) == 1)
 		split = handle_quotes(cmd, '\'');
+	else if (quote_in_str(cmd) == 2)
+		split = handle_quotes(cmd, '"');
 	else
 		split = ft_split(cmd, ' ');
 	return (split);
