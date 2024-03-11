@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:17:12 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 19:25:59 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/11 11:46:45 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static char	**handle_quotes(char *cmd, char q)
 	int		i;
 	int		el_count;
 
-	list = ft_split(cmd, q);
+	list = ft_split_quotes(cmd, q);
 	if (!list)
 		return (NULL);
 	el_count = listlen(list);

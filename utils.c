@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/08 19:56:01 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/11 14:15:52 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ static void	exec_cmd(char *cmd, char **paths)
 	argv = parse_cmd(cmd);
 	i = 0;
 	cmdpath = get_cmd_path(argv[0], paths);
-	if (!cmdpath)
-		printf("%s: command not found\n", argv[0]);
-	execve(cmdpath, argv, NULL);
-	perror(argv[0]);
+	if (execve(cmdpath, argv, NULL) == -1)
+	{
+		ft_putstr_fd("pipex: ", 2);
+		ft_putstr_fd(argv[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
 	i = 0;
 	while (argv[i])
 		free(argv[i++]);
@@ -80,9 +82,9 @@ static int	ft_pipe(char *cmd, char **paths)
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
-		exec_cmd(cmd, paths);
 		close(pipefd[1]);
-		return (-1);
+		exec_cmd(cmd, paths);
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
@@ -101,17 +103,19 @@ void	pipex(char **argv, char **paths)
 	int		fd3;
 	int		outfd;
 
-	if (access(argv[1], R_OK) != 0)
-	{
-		perror(argv[1]);
-		exit(EXIT_FAILURE);
-	}
 	fd = open(argv[1], O_RDONLY, 0777);
-	outfd = open(argv[4], O_WRONLY | O_CREAT, 0644);
 	if (fd == -1)
+	{
+		ft_putstr_fd("pipex: ", 2);
 		perror(argv[1]);
+		fd = open("temp", O_RDONLY | O_CREAT, 0777);
+	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
+	unlink("temp");
+	outfd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (outfd == -1)
+		perror(argv[4]);
 	fd2 = ft_pipe(argv[2], paths);
 	dup2(fd2, STDIN_FILENO);
 	close(fd2);

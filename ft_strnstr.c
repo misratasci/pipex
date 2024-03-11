@@ -1,27 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 12:48:21 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/11 12:58:24 by mitasci          ###   ########.fr       */
+/*   Created: 2023/12/04 18:38:10 by mitasci           #+#    #+#             */
+/*   Updated: 2024/03/11 13:15:33 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	char	**paths;
+	size_t	i;
+	size_t	j;
+	size_t	l;
 
-	if (argc != 5)
+	i = 0;
+	j = 0;
+	if (needle[i] == 0)
+		return ((char *)haystack);
+	if (len == 0)
+		return (NULL);
+	while (haystack[i] && i < len)
 	{
-		perror("parameters");
-		exit(EXIT_FAILURE);
+		l = i;
+		j = 0;
+		while (haystack[l] == needle[j] && l < len)
+		{
+			l++;
+			j++;
+			if (needle[j] == 0)
+				return ((char *)haystack + i);
+		}
+		i++;
 	}
-	
-	paths = get_cmd_paths(envp);
-	pipex(argv, paths);
+	return (NULL);
 }

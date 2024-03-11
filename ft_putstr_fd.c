@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 12:48:21 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/11 12:58:24 by mitasci          ###   ########.fr       */
+/*   Created: 2023/12/11 13:58:36 by mitasci           #+#    #+#             */
+/*   Updated: 2024/03/11 10:02:11 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char	**paths;
+	size_t	i;
 
-	if (argc != 5)
+	i = 0;
+	while (s[i])
 	{
-		perror("parameters");
-		exit(EXIT_FAILURE);
+		write(fd, &s[i], 1);
+		i++;
 	}
-	
-	paths = get_cmd_paths(envp);
-	pipex(argv, paths);
 }
