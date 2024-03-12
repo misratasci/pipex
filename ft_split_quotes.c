@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 21:21:34 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/11 11:46:18 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:15:25 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,23 @@ static char	*write_word(const char *s, char c)
 {
 	char	*str;
 	size_t	i;
+	size_t	j;
 
 	str = (char *)malloc(count_letters(s, c) + 1);
 	if (!str)
 		return (NULL);
 	i = 0;
+	j = 0;
 	while (!is_quote(s, i, c) && s[i] != '\0')
 	{
-		str[i] = s[i];
+		if (s[i] == '\\')
+		{
+			i++;
+			continue ;
+		}
+		str[j] = s[i];
 		i++;
+		j++;
 	}
 	str[i] = 0;
 	return (str);
