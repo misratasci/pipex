@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 21:21:34 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 11:15:25 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 13:34:04 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static size_t	count_letters(const char *s, char c)
 	return (i);
 }
 
-static char	*write_word(const char *s, char c)
+char	*remove_esc_chars(const char *s, char c)
 {
 	char	*str;
 	size_t	i;
@@ -72,7 +72,7 @@ static char	*write_word(const char *s, char c)
 		i++;
 		j++;
 	}
-	str[i] = 0;
+	str[j] = 0;
 	return (str);
 }
 
@@ -90,7 +90,7 @@ char	**ft_split_quotes(char const *s, char c)
 	while (s[i])
 	{
 		if (!is_quote(s, i, c) && (i == 0 || is_quote(s, i - 1, c)))
-			arr[word++] = write_word(s + i, c);
+			arr[word++] = remove_esc_chars(s + i, c);
 		i++;
 	}
 	arr[word] = 0;
