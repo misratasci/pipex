@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 11:25:48 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:34:53 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,21 @@ static void	exec_cmd(char *cmd, char **envp)
 	size_t	i;
 	char	**paths;
 
-	if (ft_strnstr(cmd, "./", 2))
+	if (ft_strnstr(cmd, "/", ft_strlen(cmd)) && ft_strnstr(cmd, ".sh", ft_strlen(cmd)))
 	{
 		cmdpath = cmd;
 		argv = (char **)malloc(2 * sizeof(char **));
 		argv[0] = cmd;
 		argv[1] = NULL;
 	}
-	else
+	else if (!ft_strnstr(cmd, ".sh", ft_strlen(cmd)))
 	{
 		paths = get_cmd_paths(envp);
 		argv = parse_cmd(cmd);
 		cmdpath = get_cmd_path(argv[0], paths);
 	}
+	else
+		argv = NULL;
 	execve(cmdpath, argv, envp);
 	ft_putstr_fd("pipex: ", 2);
 	ft_putstr_fd(argv[0], 2);
