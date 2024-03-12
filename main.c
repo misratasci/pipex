@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 12:48:21 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/11 16:23:45 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 09:55:40 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,4 @@ int	main(int argc, char **argv, char **envp)
 	while (paths[i])
 		free(paths[i++]);
 	free(paths);
-	exit(WEXITSTATUS(wstat));
 }

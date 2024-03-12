@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 09:34:07 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 10:02:27 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void	exec_cmd(char *cmd, char **paths)
 	while (argv[i])
 		free(argv[i++]);
 	free(argv);
+	exit(EXIT_FAILURE);
 }
 
 void	pipex(char **argv, char **paths, int *wstatus)
@@ -95,11 +96,11 @@ void	pipex(char **argv, char **paths, int *wstatus)
 		perror("fork 1");
 	else if (pid[0] == 0)
 	{
+		close(pipefd[0]);
+		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(fd[0]);
-		close(fd[1]);
-		close(pipefd[0]);
 		close(pipefd[1]);
 		exec_cmd(argv[2], paths);
 	}
@@ -108,14 +109,21 @@ void	pipex(char **argv, char **paths, int *wstatus)
 		perror("fork 2");
 	else if (pid[1] == 0)
 	{
+		close(fd[0]);
+		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
 		close(fd[1]);
 		close(pipefd[0]);
-		close(pipefd[1]);
 		exec_cmd(argv[3], paths);
 	}
-	wait(wstatus);
+	close(pipefd[0]);
+	close(pipefd[1]);
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid[0], wstatus, 0);
+	waitpid(pid[1], wstatus, 0);
+	if (WEXITED && WEXITSTATUS(*wstatus) != 0)
+		exit(WEXITSTATUS(*wstatus));
 	unlink("temp");
 }
