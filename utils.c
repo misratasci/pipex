@@ -6,11 +6,34 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/11 16:23:06 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 09:34:07 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	**get_cmd_paths(char **envp)
+{
+	int		i;
+	char	*pathline;
+	char	**paths;
+	char	*path;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			pathline = envp[i];
+			break ;
+		}
+		i++;
+	}
+	path = ft_substr(pathline, 5, ft_strlen(pathline) - 5);
+	paths = ft_split(path, ':');
+	free(path);
+	return (paths);
+}
 
 static char	*get_cmd_path(char *cmd, char **paths)
 {
@@ -49,98 +72,50 @@ static void	exec_cmd(char *cmd, char **paths)
 	free(argv);
 }
 
-static void	write_to_file(int infd, int outfd)
-{
-	char	*line;
-
-	line = get_next_line(infd);
-	while (line)
-	{
-		ft_putstr_fd(line, outfd);
-		free(line);
-		line = get_next_line(infd);
-	}
-}
-
-static int	ft_pipe(char *cmd, char **paths, int *wstatus)
-{
-	int		pipefd[2];
-	pid_t	pid;
-	int		pip;
-
-	pip = pipe(pipefd);
-	pid = fork();
-	if (pip == -1 || pid == -1)
-	{
-		perror("pipe or fork error");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
-		exec_cmd(cmd, paths);
-		close(pipefd[1]);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		waitpid(pid, wstatus, 0);
-		close(pipefd[1]);
-		return (pipefd[0]);
-	}
-}
-
 void	pipex(char **argv, char **paths, int *wstatus)
 {
-	int		fd;
-	int		fd2;
-	int		fd3;
-	int		outfd;
+	int		fd[2];
+	int		pipefd[2];
+	pid_t	pid[2];
 
-	fd = open(argv[1], O_RDONLY, 0777);
-	if (fd == -1)
+	fd[0] = open(argv[1], O_RDONLY, 0777);
+	if (fd[0] == -1)
 	{
 		ft_putstr_fd("pipex: ", 2);
 		perror(argv[1]);
-		fd = open("temp", O_RDONLY | O_CREAT, 0777);
+		fd[0] = open("temp", O_RDONLY | O_CREAT, 0777);
 	}
-	dup2(fd, STDIN_FILENO);
-	outfd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (outfd == -1)
+	fd[1] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd[1] == -1)
 		perror(argv[4]);
-	fd2 = ft_pipe(argv[2], paths, wstatus);
-	dup2(fd2, STDIN_FILENO);
-	close(fd2);
-	fd3 = ft_pipe(argv[3], paths, wstatus);
-	write_to_file(fd3, outfd);
-	close(fd);
-	unlink("temp");
-}
-
-char	**get_cmd_paths(char **envp)
-{
-	int		i;
-	char	*pathline;
-	char	**paths;
-	char	**path;
-
-	pathline = NULL;
-	i = 0;
-	while (envp[i])
+	if (pipe(pipefd) == -1)
+		perror("pipe");
+	pid[0] = fork();
+	if (pid[0] == -1)
+		perror("fork 1");
+	else if (pid[0] == 0)
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			pathline = envp[i];
-			break ;
-		}
-		i++;
+		dup2(fd[0], STDIN_FILENO);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		exec_cmd(argv[2], paths);
 	}
-	path = ft_split(pathline, '=');
-	pathline = path[1];
-	free(path[0]);
-	paths = ft_split(pathline, ':');
-	free(path[1]);
-	free(path);
-	return (paths);
+	pid[1] = fork();
+	if (pid[1] == -1)
+		perror("fork 2");
+	else if (pid[1] == 0)
+	{
+		dup2(pipefd[0], STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		exec_cmd(argv[3], paths);
+	}
+	wait(wstatus);
+	unlink("temp");
 }
