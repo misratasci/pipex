@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 10:02:27 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 10:38:53 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,18 @@ static char	*get_cmd_path(char *cmd, char **paths)
 	return (cmdpath);
 }
 
-static void	exec_cmd(char *cmd, char **paths)
+static void	exec_cmd(char *cmd, char **envp)
 {
 	char	**argv;
 	char	*cmdpath;
 	size_t	i;
+	char	**paths;
 
+	paths = get_cmd_paths(envp);
 	argv = parse_cmd(cmd);
 	i = 0;
 	cmdpath = get_cmd_path(argv[0], paths);
-	execve(cmdpath, argv, NULL);
+	execve(cmdpath, argv, envp);
 	ft_putstr_fd("pipex: ", 2);
 	ft_putstr_fd(argv[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
@@ -70,14 +72,19 @@ static void	exec_cmd(char *cmd, char **paths)
 	while (argv[i])
 		free(argv[i++]);
 	free(argv);
+	i = 0;
+	while (paths[i])
+		free(paths[i++]);
+	free(paths);
 	exit(EXIT_FAILURE);
 }
 
-void	pipex(char **argv, char **paths, int *wstatus)
+void	pipex(char **argv, char **envp)
 {
 	int		fd[2];
 	int		pipefd[2];
 	pid_t	pid[2];
+	int		wstatus;
 
 	fd[0] = open(argv[1], O_RDONLY, 0777);
 	if (fd[0] == -1)
@@ -102,7 +109,7 @@ void	pipex(char **argv, char **paths, int *wstatus)
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(fd[0]);
 		close(pipefd[1]);
-		exec_cmd(argv[2], paths);
+		exec_cmd(argv[2], envp);
 	}
 	pid[1] = fork();
 	if (pid[1] == -1)
@@ -115,15 +122,15 @@ void	pipex(char **argv, char **paths, int *wstatus)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		close(pipefd[0]);
-		exec_cmd(argv[3], paths);
+		exec_cmd(argv[3], envp);
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid[0], wstatus, 0);
-	waitpid(pid[1], wstatus, 0);
-	if (WEXITED && WEXITSTATUS(*wstatus) != 0)
-		exit(WEXITSTATUS(*wstatus));
+	waitpid(pid[0], &wstatus, 0);
+	waitpid(pid[1], &wstatus, 0);
+	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) != 0)
+		exit(WEXITSTATUS(wstatus));
 	unlink("temp");
 }

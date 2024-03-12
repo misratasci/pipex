@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": ["main.c", "grep a", "awk \"'{count++} END {print count}'\"", "out"],
+      "cwd": "/Users/misratasci/Desktop/pipex",
+      "program": "/Users/misratasci/Desktop/pipex/pipex"
+    }
+  ]
+}
