@@ -6,34 +6,11 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:17:12 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 14:17:26 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:57:12 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-static char	**add_element(char **list, char *el)
-{
-	int		i;
-	char	**res;
-
-	if (!list)
-		return (NULL);
-	i = 0;
-	while (list[i])
-		i++;
-	res = (char **)malloc(sizeof(char *) * (i + 2));
-	i = 0;
-	while (list[i])
-	{
-		res[i] = list[i];
-		i++;
-	}
-	res[i] = ft_strdup(el);
-	res[i + 1] = NULL;
-	free(list);
-	return (res);
-}
 
 static char	**handle_quotes(char *cmd, char q)
 {

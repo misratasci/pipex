@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 14:13:28 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 14:18:25 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:57:18 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,27 @@ char	**join_lists(char **l1, char **l2)
 	free(l1);
 	free(l2);
 	return (list);
+}
+
+char	**add_element(char **list, char *el)
+{
+	int		i;
+	char	**res;
+
+	if (!list)
+		return (NULL);
+	i = 0;
+	while (list[i])
+		i++;
+	res = (char **)malloc(sizeof(char *) * (i + 2));
+	i = 0;
+	while (list[i])
+	{
+		res[i] = list[i];
+		i++;
+	}
+	res[i] = ft_strdup(el);
+	res[i + 1] = NULL;
+	free(list);
+	return (res);
 }

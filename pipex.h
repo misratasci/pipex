@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 12:48:35 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 14:49:10 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:57:07 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ int		listlen(char **list);
 char	**join_lists(char **l1, char **l2);
 char	**parse_cmd(char *cmd);
 int		includes(char *s, char c);
+char	**add_element(char **list, char *el);
 
 #endif
