@@ -6,16 +6,11 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 21:21:34 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 13:34:04 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:11:53 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-int	is_start_of_quote(const char *s, size_t i, char c)
-{
-	return (s[i] != c && (i == 0 || (s[i - 1] == c && s[i - 2] != '\\')));
-}
 
 int	is_quote(const char *s, size_t i, char c)
 {
@@ -33,7 +28,7 @@ static size_t	count_words(const char *s, char c)
 	res = 0;
 	while (s[i])
 	{
-		if (is_start_of_quote(s, i, c))
+		if (s[i] != c && (i == 0 || (s[i - 1] == c && s[i - 2] != '\\')))
 			res++;
 		i++;
 	}

@@ -6,67 +6,11 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:17:12 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 13:51:48 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:17:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-static int	quote_in_str(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if ('\'' == s[i])
-			return (1);
-		else if ('"' == s[i])
-			return (2);
-		i++;
-	}
-	return (0);
-}
-
-static int	listlen(char **list)
-{
-	int	i;
-
-	if (!list)
-		return (0);
-	i = 0;
-	while (list[i])
-		i++;
-	return (i);
-}
-
-static char	**join_lists(char **l1, char **l2)
-{
-	char	**list;
-	int		i;
-
-	if (l1 == NULL)
-		return (l2);
-	list = (char **)malloc((listlen(l1) + listlen(l2) + 1) * sizeof(char *));
-	if (!list)
-		return (NULL);
-	i = 0;
-	while (i < listlen(l1))
-	{
-		list[i] = l1[i];
-		i += 1;
-	}
-	i = 0;
-	while (i < listlen(l2))
-	{
-		list[listlen(l1) + i] = l2[i];
-		i += 1;
-	}
-	list[listlen(l1) + i] = NULL;
-	free(l1);
-	free(l2);
-	return (list);
-}
 
 static char	**add_element(char **list, char *el)
 {
@@ -114,10 +58,7 @@ static char	**handle_quotes(char *cmd, char q)
 		}
 		i++;
 	}
-	i = 0;
-	while (list[i])
-		free(list[i++]);
-	free(list);
+	free_list(list);
 	return (split);
 }
 
