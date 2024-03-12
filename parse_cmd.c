@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:17:12 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 11:19:48 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 13:51:48 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,19 +120,12 @@ static char	**handle_quotes(char *cmd, char q)
 	free(list);
 	return (split);
 }
-/*
-char	**handle_sh(char *cmd)
-{
-	
-}
-*/
+
 char	**parse_cmd(char *cmd)
 {
 	char	**split;
 
 	split = NULL;
-	//if (ft_strnstr(cmd, ".sh", ft_strlen(cmd)))
-	//	split = handle_sh(cmd);
 	if (quote_in_str(cmd) == 1)
 		split = handle_quotes(cmd, '\'');
 	else if (quote_in_str(cmd) == 2)

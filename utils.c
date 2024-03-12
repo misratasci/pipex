@@ -6,11 +6,24 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:59:57 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 13:41:48 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/12 13:54:47 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static int		includes(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i++] == c)
+			return (1);
+	}
+	return (0);
+}
 
 char	**get_cmd_paths(char **envp)
 {
@@ -42,6 +55,8 @@ static char	*get_cmd_path(char *cmd, char **paths)
 
 	i = 0;
 	cmdpath = NULL;
+	if (includes(cmd, '/'))
+		return (cmd);
 	while (paths[i])
 	{
 		cmdpath = ft_strjoin(paths[i++], "/");
@@ -59,7 +74,7 @@ static void	exec_cmd(char *cmd, char **envp)
 	char	*cmdpath;
 	char	**paths;
 
-	if (ft_strnstr(cmd, "/", ft_strlen(cmd)) && ft_strnstr(cmd, ".sh", ft_strlen(cmd)))
+	if (includes(cmd, '/') && ft_strnstr(cmd, ".sh", ft_strlen(cmd)))
 	{
 		cmdpath = remove_esc_chars(cmd, 0);
 		argv = (char **)malloc(2 * sizeof(char **));
@@ -97,7 +112,10 @@ void	pipex(char **argv, char **envp)
 	}
 	fd[1] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd[1] == -1)
+	{
 		perror(argv[4]);
+		exit(EXIT_FAILURE);
+	}
 	if (pipe(pipefd) == -1)
 		perror("pipe");
 	pid[0] = fork();
