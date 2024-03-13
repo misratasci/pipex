@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 21:21:34 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/11 11:26:51 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/13 10:46:32 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*write_word(const char *s, char c)
 	return (str);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**arr;
 	size_t	i;

@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 12:48:21 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 18:39:43 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/13 10:56:14 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	fd = open_files(argv);
 	pipex(argv, envp, fd);
-	parse_cmd("grep a");
 	free(fd);
 	unlink("temp");
-	//check leaks!!
 }

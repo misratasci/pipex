@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 12:48:35 by mitasci           #+#    #+#             */
-/*   Updated: 2024/03/12 14:57:07 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/03/13 12:18:29 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-char	**ft_split(char const *s, char c);
+char	**ft_split(char *s, char c);
 char	**ft_split_quotes(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -40,5 +40,6 @@ char	**join_lists(char **l1, char **l2);
 char	**parse_cmd(char *cmd);
 int		includes(char *s, char c);
 char	**add_element(char **list, char *el);
+void	print_cmd_err(char *s);
 
 #endif
